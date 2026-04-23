@@ -31,8 +31,6 @@ export default function ChatPage() {
     setMessages(newMessages)
     setInput('')
     setStreaming(true)
-
-    // add empty assistant message to stream into
     setMessages(m => [...m, { role: 'assistant', content: '' }])
 
     try {
@@ -82,20 +80,20 @@ export default function ChatPage() {
   }
 
   return (
-    <div className="flex flex-col h-screen max-h-screen">
+    <div className="flex flex-col h-screen max-h-screen bg-[#f7f4f0]">
       {/* Header */}
-      <div className="px-4 pt-6 pb-3 border-b border-[#1e1e1e] shrink-0">
+      <div className="px-4 pt-6 pb-3 border-b border-stone-200 bg-white shadow-sm shrink-0">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-full bg-amber-500/20 border border-amber-700/40 flex items-center justify-center text-lg">
+          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center text-lg shadow-md shadow-orange-200">
             🏆
           </div>
           <div>
-            <h1 className="text-white font-semibold text-base">Transform Coach</h1>
-            <p className="text-xs text-neutral-500">Knows your full 90-day plan</p>
+            <h1 className="text-stone-900 font-bold text-base">Transform Coach</h1>
+            <p className="text-xs text-stone-400">Knows your full 90-day plan</p>
           </div>
           <div className="ml-auto flex items-center gap-1.5">
             <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-            <span className="text-xs text-neutral-500">Online</span>
+            <span className="text-xs text-stone-400">Online</span>
           </div>
         </div>
       </div>
@@ -105,18 +103,18 @@ export default function ChatPage() {
         {messages.length === 0 && (
           <div className="pt-4 space-y-5">
             <div className="text-center">
-              <div className="w-14 h-14 rounded-full bg-amber-500/10 border border-amber-700/30 flex items-center justify-center text-3xl mx-auto mb-3">
+              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center text-3xl mx-auto mb-3 shadow-lg shadow-orange-200">
                 💪
               </div>
-              <p className="text-white font-semibold">Hey Durgesh.</p>
-              <p className="text-neutral-500 text-sm mt-1">I know your full plan. Ask me anything.</p>
+              <p className="text-stone-900 font-bold text-lg">Hey Durgesh.</p>
+              <p className="text-stone-500 text-sm mt-1">I know your full plan. Ask me anything.</p>
             </div>
             <div className="space-y-2">
               {STARTERS.map(s => (
                 <button
                   key={s}
                   onClick={() => send(s)}
-                  className="w-full text-left rounded-xl border border-[#262626] bg-[#141414] px-4 py-3 text-sm text-neutral-300 hover:border-amber-800/50 hover:bg-[#1a1a1a] transition-colors"
+                  className="w-full text-left rounded-2xl border border-stone-200 bg-white px-4 py-3 text-sm text-stone-700 font-medium hover:border-orange-200 hover:bg-orange-50 transition-all shadow-sm"
                 >
                   {s}
                 </button>
@@ -128,22 +126,22 @@ export default function ChatPage() {
         {messages.map((m, i) => (
           <div key={i} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
             {m.role === 'assistant' && (
-              <div className="w-7 h-7 rounded-full bg-amber-500/20 border border-amber-700/40 flex items-center justify-center text-sm mr-2 mt-1 shrink-0">
+              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center text-sm mr-2 mt-1 shrink-0 shadow-sm shadow-orange-200">
                 🏆
               </div>
             )}
             <div
               className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed prose-chat ${
                 m.role === 'user'
-                  ? 'bg-amber-500 text-black rounded-tr-sm font-medium'
-                  : 'bg-[#1a1a1a] text-neutral-200 rounded-tl-sm border border-[#262626]'
+                  ? 'bg-orange-500 text-white rounded-tr-sm font-medium shadow-md shadow-orange-200'
+                  : 'bg-white text-stone-800 rounded-tl-sm border border-stone-200 shadow-sm'
               }`}
             >
               {m.content || (
-                <span className="inline-flex gap-1">
-                  <span className="w-1.5 h-1.5 bg-neutral-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-                  <span className="w-1.5 h-1.5 bg-neutral-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                  <span className="w-1.5 h-1.5 bg-neutral-500 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                <span className="inline-flex gap-1 items-center">
+                  <span className="w-1.5 h-1.5 bg-stone-300 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                  <span className="w-1.5 h-1.5 bg-stone-300 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+                  <span className="w-1.5 h-1.5 bg-stone-300 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
                 </span>
               )}
             </div>
@@ -153,7 +151,7 @@ export default function ChatPage() {
       </div>
 
       {/* Input */}
-      <div className="px-4 py-3 border-t border-[#1e1e1e] bg-[#0d0d0d] shrink-0 pb-24">
+      <div className="px-4 py-3 border-t border-stone-200 bg-white shrink-0 pb-24">
         <div className="flex items-end gap-2">
           <textarea
             ref={inputRef}
@@ -163,7 +161,7 @@ export default function ChatPage() {
             placeholder="Ask your coach..."
             rows={1}
             disabled={streaming}
-            className="flex-1 rounded-xl bg-[#1a1a1a] border border-[#2a2a2a] px-3 py-2.5 text-white placeholder-neutral-600 focus:outline-none focus:border-amber-700 transition-colors resize-none text-sm"
+            className="flex-1 rounded-2xl bg-stone-50 border border-stone-200 px-3 py-2.5 text-stone-900 placeholder-stone-400 focus:outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-100 transition-all resize-none text-sm"
             style={{ minHeight: '42px', maxHeight: '120px' }}
             onInput={e => {
               const t = e.currentTarget
@@ -174,14 +172,14 @@ export default function ChatPage() {
           <button
             onClick={() => send(input)}
             disabled={!input.trim() || streaming}
-            className="w-10 h-10 rounded-xl bg-amber-500 hover:bg-amber-400 disabled:bg-[#1f1f1f] disabled:text-neutral-600 text-black flex items-center justify-center transition-colors shrink-0"
+            className="w-10 h-10 rounded-xl bg-orange-500 hover:bg-orange-600 disabled:bg-stone-200 disabled:text-stone-400 text-white flex items-center justify-center transition-all shadow-md shadow-orange-200 disabled:shadow-none active:scale-95"
           >
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
               <path d="M12 19V5M5 12l7-7 7 7" />
             </svg>
           </button>
         </div>
-        <p className="text-[10px] text-neutral-700 mt-1.5 text-center">Enter to send · Shift+Enter for newline</p>
+        <p className="text-[10px] text-stone-400 mt-1.5 text-center">Enter to send · Shift+Enter for newline</p>
       </div>
     </div>
   )

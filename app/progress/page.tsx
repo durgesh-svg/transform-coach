@@ -50,28 +50,28 @@ export default function ProgressPage() {
   return (
     <div className="px-4 pt-6 pb-2">
       <div className="mb-5">
-        <h1 className="text-2xl font-bold text-white">Progress</h1>
-        <p className="text-neutral-500 text-sm mt-0.5">90-day milestone tracker</p>
+        <h1 className="text-2xl font-extrabold text-stone-900">Progress</h1>
+        <p className="text-stone-500 text-sm mt-0.5">90-day milestone tracker</p>
       </div>
 
       {/* Summary cards */}
       <div className="grid grid-cols-3 gap-3 mb-5">
         {[
-          { label: 'Start',   value: `${startW} kg`,  sub: '17.5% BF' },
-          { label: 'Target',  value: `${targetW} kg`, sub: '12.5% BF' },
-          { label: 'To lose', value: `${totalDrop} kg`, sub: 'pure fat' },
-        ].map(({ label, value, sub }) => (
-          <div key={label} className="rounded-xl border border-[#262626] bg-[#141414] p-3 text-center">
-            <p className="text-[10px] text-neutral-500 uppercase tracking-wider">{label}</p>
-            <p className="text-lg font-bold text-amber-400 mt-1">{value}</p>
-            <p className="text-[10px] text-neutral-600 mt-0.5">{sub}</p>
+          { label: 'Start',   value: `${startW} kg`,  sub: '17.5% BF', color: 'bg-stone-100 border-stone-200' },
+          { label: 'Target',  value: `${targetW} kg`, sub: '12.5% BF', color: 'bg-orange-50 border-orange-200' },
+          { label: 'To lose', value: `${totalDrop} kg`, sub: 'pure fat', color: 'bg-green-50 border-green-200' },
+        ].map(({ label, value, sub, color }) => (
+          <div key={label} className={`rounded-2xl border ${color} p-3 text-center`}>
+            <p className="text-[10px] font-bold text-stone-400 uppercase tracking-wider">{label}</p>
+            <p className="text-lg font-extrabold text-orange-500 mt-1">{value}</p>
+            <p className="text-[10px] text-stone-400 mt-0.5">{sub}</p>
           </div>
         ))}
       </div>
 
       {/* Week-by-week table */}
-      <div className="rounded-xl border border-[#262626] bg-[#141414] overflow-hidden">
-        <div className="grid grid-cols-4 text-[10px] uppercase tracking-widest text-neutral-500 px-4 py-2.5 border-b border-[#262626]">
+      <div className="rounded-2xl border border-stone-200 bg-white shadow-sm overflow-hidden mb-5">
+        <div className="grid grid-cols-4 text-[10px] font-bold uppercase tracking-widest text-stone-400 px-4 py-2.5 border-b border-stone-100 bg-stone-50">
           <span>Week</span>
           <span className="text-center">Target</span>
           <span className="text-center">Actual</span>
@@ -87,32 +87,32 @@ export default function ProgressPage() {
           return (
             <div
               key={m.week}
-              className={`grid grid-cols-4 items-center px-4 py-3 border-b border-[#1e1e1e] last:border-0 ${
-                isCurrentWeek ? 'bg-amber-900/10' : ''
+              className={`grid grid-cols-4 items-center px-4 py-3 border-b border-stone-50 last:border-0 ${
+                isCurrentWeek ? 'bg-orange-50' : ''
               }`}
             >
               <div className="flex items-center gap-2">
-                {isCurrentWeek && <span className="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0" />}
-                <span className={`text-sm font-medium ${isCurrentWeek ? 'text-amber-400' : isPast ? 'text-neutral-300' : 'text-neutral-600'}`}>
+                {isCurrentWeek && <span className="w-2 h-2 rounded-full bg-orange-500 shrink-0" />}
+                <span className={`text-sm font-bold ${isCurrentWeek ? 'text-orange-500' : isPast ? 'text-stone-700' : 'text-stone-300'}`}>
                   W{m.week}
                 </span>
               </div>
 
-              <p className={`text-sm text-center ${isPast || isCurrentWeek ? 'text-neutral-400' : 'text-neutral-700'}`}>
+              <p className={`text-sm text-center ${isPast || isCurrentWeek ? 'text-stone-500' : 'text-stone-300'}`}>
                 {m.weight} kg
               </p>
 
-              <p className="text-sm text-center">
+              <p className="text-sm text-center font-semibold">
                 {actual != null ? (
-                  <span className={diff! > 0.3 ? 'text-red-400' : diff! < -0.3 ? 'text-green-400' : 'text-neutral-300'}>
+                  <span className={diff! > 0.3 ? 'text-red-500' : diff! < -0.3 ? 'text-green-600' : 'text-stone-700'}>
                     {actual} kg
                   </span>
                 ) : (
-                  <span className="text-neutral-700">—</span>
+                  <span className="text-stone-300">—</span>
                 )}
               </p>
 
-              <p className={`text-[11px] text-right ${isPast || isCurrentWeek ? 'text-neutral-500' : 'text-neutral-700'}`}>
+              <p className={`text-[11px] text-right ${isPast || isCurrentWeek ? 'text-stone-400' : 'text-stone-300'}`}>
                 {m.note}
               </p>
             </div>
@@ -121,9 +121,9 @@ export default function ProgressPage() {
       </div>
 
       {/* Rating tracker */}
-      <div className="mt-5 rounded-xl border border-[#262626] bg-[#141414] p-4">
-        <p className="text-xs text-neutral-500 uppercase tracking-widest mb-3">Overall Rating</p>
-        <div className="space-y-2.5">
+      <div className="rounded-2xl border border-stone-200 bg-white shadow-sm p-4">
+        <p className="text-xs font-bold text-stone-400 uppercase tracking-widest mb-3">Overall Rating</p>
+        <div className="space-y-3">
           {[
             { label: 'Physical Features', now: 5.5, goal: 7 },
             { label: 'Grooming',          now: 5,   goal: 7.5 },
@@ -132,22 +132,27 @@ export default function ProgressPage() {
           ].map(({ label, now, goal }) => (
             <div key={label}>
               <div className="flex justify-between text-xs mb-1">
-                <span className="text-neutral-400">{label}</span>
-                <span className="text-neutral-500">
-                  <span className="text-amber-400 font-medium">{now}</span>
-                  <span className="text-neutral-700"> → {goal}/10</span>
+                <span className="text-stone-600 font-medium">{label}</span>
+                <span className="text-stone-400">
+                  <span className="text-orange-500 font-bold">{now}</span>
+                  <span className="text-stone-300"> → {goal}/10</span>
                 </span>
               </div>
-              <div className="relative h-1.5 rounded-full bg-[#262626] overflow-hidden">
-                <div className="absolute h-full rounded-full bg-neutral-700" style={{ width: `${goal * 10}%` }} />
-                <div className="absolute h-full rounded-full bg-amber-500" style={{ width: `${now * 10}%` }} />
+              <div className="relative h-2 rounded-full bg-stone-100 overflow-hidden">
+                <div className="absolute h-full rounded-full bg-orange-100" style={{ width: `${goal * 10}%` }} />
+                <div className="absolute h-full rounded-full bg-orange-500" style={{ width: `${now * 10}%` }} />
               </div>
             </div>
           ))}
         </div>
-        <p className="text-center text-xs text-neutral-600 mt-3">
-          5/10 → <span className="text-amber-400 font-semibold">7.5/10</span> in 90 days
-        </p>
+        <div className="mt-4 rounded-xl bg-orange-50 border border-orange-100 p-3 text-center">
+          <p className="text-sm text-stone-600">
+            <span className="text-stone-400">5/10</span>
+            <span className="text-stone-400 mx-2">→</span>
+            <span className="text-orange-500 font-extrabold text-lg">7.5/10</span>
+            <span className="text-stone-400 ml-2 text-xs">in 90 days</span>
+          </p>
+        </div>
       </div>
     </div>
   )
