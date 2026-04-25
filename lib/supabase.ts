@@ -1,13 +1,4 @@
-import { createClient } from '@supabase/supabase-js'
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-
-export const isSupabaseConfigured = !!(supabaseUrl && supabaseAnonKey)
-
-export const supabase = isSupabaseConfigured
-  ? createClient(supabaseUrl!, supabaseAnonKey!)
-  : null
+// Shared types used by both client components and server routes
 
 export type DailyLog = {
   id?: string
@@ -26,34 +17,32 @@ export type DailyLog = {
   updated_at?: string
 }
 
-export async function upsertLog(log: Omit<DailyLog, 'id' | 'created_at' | 'updated_at'>) {
-  if (!supabase) throw new Error('Supabase not configured')
-  const { data, error } = await supabase
-    .from('daily_logs')
-    .upsert({ ...log, updated_at: new Date().toISOString() }, { onConflict: 'date' })
-    .select()
-    .single()
-  if (error) throw error
-  return data as DailyLog
-}
+// Client-side helpers — all calls go through /api/log (server-side, auth-checked)
 
 export async function getLog(date: string): Promise<DailyLog | null> {
-  if (!supabase) return null
-  const { data } = await supabase
-    .from('daily_logs')
-    .select('*')
-    .eq('date', date)
-    .maybeSingle()
-  return data as DailyLog | null
+  const res = await fetch(`/api/log?date=${date}`)
+  if (!res.ok) return null
+  return res.json()
+}
+
+export async function upsertLog(log: Omit<DailyLog, 'id' | 'created_at' | 'updated_at'>): Promise<DailyLog> {
+  const res = await fetch('/api/log', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(log),
+  })
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ error: 'Unknown error' }))
+    throw new Error(err.error ?? 'Save failed')
+  }
+  return res.json()
 }
 
 export async function getLogs(from: string, to: string): Promise<DailyLog[]> {
-  if (!supabase) return []
-  const { data } = await supabase
-    .from('daily_logs')
-    .select('*')
-    .gte('date', from)
-    .lte('date', to)
-    .order('date', { ascending: true })
-  return (data ?? []) as DailyLog[]
+  const res = await fetch(`/api/log/range?from=${from}&to=${to}`)
+  if (!res.ok) return []
+  return res.json()
 }
+
+// Legacy export kept so existing imports don't break
+export const isSupabaseConfigured = true
