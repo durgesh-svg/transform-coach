@@ -1,0 +1,21 @@
+{
+  "name": "Transform Coach",
+  "short_name": "Transform",
+  "description": "90-Day Personal Transformation — Durgesh",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f7f4f0",
+  "theme_color": "#f97316",
+  "categories": ["health", "fitness", "lifestyle"],
+  "icons": [
+    { "src": "/api/pwa-icon?size=192", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/api/pwa-icon?size=512", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ],
+  "screenshots": [],
+  "shortcuts": [
+    { "name": "Log Today",  "url": "/log",      "description": "Open daily log" },
+    { "name": "Ask Coach",  "url": "/chat",     "description": "Chat with AI coach" },
+    { "name": "Progress",   "url": "/progress", "description": "View 90-day progress" }
+  ]
+}
