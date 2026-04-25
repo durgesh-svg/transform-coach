@@ -1,13 +1,11 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
 
 export default function LoginPage() {
   const [pw, setPw] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
-  const router = useRouter()
 
   async function submit(e: React.FormEvent) {
     e.preventDefault()
@@ -19,8 +17,7 @@ export default function LoginPage() {
         body: JSON.stringify({ password: pw }),
       })
       if (res.ok) {
-        router.push('/')
-        router.refresh()
+        window.location.href = '/'
       } else {
         const d = await res.json()
         setError(d.error ?? 'Wrong password')
